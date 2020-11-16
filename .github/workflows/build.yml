@@ -1,10 +1,10 @@
 name: build
 on:
   push:
-    branches: [ master ]
+    branches: [master]
 
-jobs: 
-  hello-world: 
+jobs:
+  hello-world:
     name: print-hello-world
     runs-on: ubuntu-latest
     steps:
@@ -12,4 +12,4 @@ jobs:
         uses: actions/checkout@v2
       - name: echo
         run: |
-        echo hello github actions
+          echo hello github actions
