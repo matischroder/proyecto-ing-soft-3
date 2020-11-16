@@ -1,0 +1,13 @@
+name: build
+on:
+  push:
+    branches: [ master ]
+
+jobs: 
+  hello-world: 
+    name: print-hello-world
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo
+        run: |
+        echo hello github actions
