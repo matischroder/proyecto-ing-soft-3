@@ -3,13 +3,11 @@ on:
   push:
     branches: [master]
 
-jobs:
-  hello-world:
-    name: print-hello-world
+jobs:  
+  result:
+    name: result
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v2
-      - name: echo
-        run: |
-          echo hello github actions
+      - name: dockerlogin
