@@ -23,3 +23,34 @@ jobs:
 
       - name: Docker Push
         run: docker push ${{secrets.DOCKER_USER}}/worker
+
+  deploy:
+    name: Deploy Worker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to Heroku Container registry
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login
+
+      - name: Setting Variables
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          heroku config:set POSTGRES_URI=${{ secrets.POSTGRES_URI }} -a proyecto-ing-soft-3-worker
+          heroku config:set REDIS_PORT=${{ secrets.REDIS_PORT }} -a proyecto-ing-soft-3-worker
+          heroku config:set REDIS_HOST=${{ secrets.REDIS_HOST }} -a proyecto-ing-soft-3-worker
+          heroku config:set REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }} -a proyecto-ing-soft-3-worker
+
+      - name: Push
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          cd ./worker
+          heroku container:push -a proyecto-ing-soft-3-worker web
+      - name: Release
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:release -a proyecto-ing-soft-3-worker web
