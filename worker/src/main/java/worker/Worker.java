@@ -1,7 +1,6 @@
 package worker;
 
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.exceptions.JedisConnectionException;
 import java.sql.*;
 import org.json.JSONObject;
 
@@ -44,7 +43,8 @@ class Worker {
   }
 
   static Jedis connectToRedis() {
-   Jedis jedis = new Jedis(System.getenv("REDIS_HOST")
+    Jedis jedis = new Jedis(System.getenv("REDIS_HOST"));
+    return jedis;
   }
 
   static Connection connectToDB(String host) throws SQLException {
