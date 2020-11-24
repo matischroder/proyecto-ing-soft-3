@@ -35,6 +35,7 @@ jobs:
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
         run: heroku container:login
+
       - name: Setting Variables
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
@@ -43,10 +44,12 @@ jobs:
         run: |
           heroku config:set REDIS_PORT=${{ secrets.REDIS_PORT }} -a proyecto-ing-soft-3-vote
           heroku config:set REDIS_HOST=${{ secrets.REDIS_HOST }} -a proyecto-ing-soft-3-vote
+
       - name: Push
         run: |
           cd ./vote
           heroku container: push -a proyecto-ing-soft-3-vote web
+
       - name: Release
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
