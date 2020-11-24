@@ -44,8 +44,9 @@ jobs:
         run: |
           heroku config:set REDIS_PORT=${{ secrets.REDIS_PORT }} -a proyecto-ing-soft-3-vote
           heroku config:set REDIS_HOST=${{ secrets.REDIS_HOST }} -a proyecto-ing-soft-3-vote
-
       - name: Push
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
           cd ./vote
           heroku container:push -a proyecto-ing-soft-3-vote web
