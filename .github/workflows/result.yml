@@ -23,3 +23,29 @@ jobs:
 
       - name: Docker Push
         run: docker push ${{secrets.DOCKER_USER}}/result
+
+  deploy:
+    name: Deploy Result
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to Heroku Container registry
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login
+
+      - name: Setting Variables
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          heroku config:set POST_URI=${{ secrets.POSTGRES_URI }} -a proyecto-ing-soft-3-result
+      - name: Push
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          cd ./result
+          heroku container:push -a proyecto-ing-soft-3-result web
+      - name: Release
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:release -a proyecto-ing-soft-3-result web
