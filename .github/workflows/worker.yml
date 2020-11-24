@@ -49,9 +49,9 @@ jobs:
           HEROKU_EMAIL: ${{secrets.HEROKU_EMAIL}}
         run: |
           cd ./worker
-          heroku container:push -a proyecto-ing-soft-3-worker web
+          heroku container:push -a proyecto-ing-soft-3-worker worker
 
       - name: Release
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release -a proyecto-ing-soft-3-worker web
+        run: heroku container:release -a proyecto-ing-soft-3-worker worker
