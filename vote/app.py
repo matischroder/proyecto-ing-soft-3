@@ -8,14 +8,14 @@ import json
 option_a = os.getenv('OPTION_A', "Cats")
 option_b = os.getenv('OPTION_B', "Dogs")
 hostname = socket.gethostname()
-REDIS_URI = os.environ.get('REDIS_URI')
+REDISCLOUD_URL = os.environ.get('REDISCLOUD_URL')
 
 app = Flask(__name__)
 
 
 def get_redis():
     if not hasattr(g, 'redis'):
-        g.redis = Redis(REDIS_URI, socket_timeout=5)
+        g.redis = Redis(REDISCLOUD_URL, socket_timeout=5)
     return g.redis
 
 
