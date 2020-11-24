@@ -47,6 +47,7 @@ jobs:
       - name: Push
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_EMAIL: ${{secrets.HEROKU_EMAIL}}
         run: |
           cd ./vote
           heroku container:push -a proyecto-ing-soft-3-vote web
