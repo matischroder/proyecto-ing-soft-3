@@ -8,6 +8,7 @@ import json
 option_a = os.getenv('OPTION_A', "Cats")
 option_b = os.getenv('OPTION_B', "Dogs")
 hostname = socket.gethostname()
+PORT = int(os.environ.get("PORT", 5000))
 REDISCLOUD_URL = os.environ.get('REDISCLOUD_URL')
 
 app = Flask(__name__)
@@ -45,4 +46,4 @@ def hello():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80, debug=True, threaded=True)
+    app.run(host='0.0.0.0', port=PORT, debug=True, threaded=True)
