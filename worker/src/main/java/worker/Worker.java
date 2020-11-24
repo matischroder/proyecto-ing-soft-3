@@ -60,7 +60,8 @@ class Worker {
         try {
           conn = DriverManager.getConnection(url, System.getenv("POSTGRES_USER"), System.getenv("POSTGRES_PASSWORD"));
         } catch (SQLException e) {
-          System.err.println("Waiting for db");
+          System.err
+              .println("Waiting for db" + url + System.getenv("POSTGRES_USER") + System.getenv("POSTGRES_PASSWORD"));
           sleep(1000);
         }
       }
