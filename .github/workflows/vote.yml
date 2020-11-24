@@ -33,13 +33,21 @@ jobs:
 
       - name: Login to Heroku Container registry
         env:
-          HEROKU_EMAIL: ${{secrets.HEROKU_EMAIL}}
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
         run: heroku container:login
-
-      - name: Build
+      - name: Setting Variables
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+          REDIS_PORT: ${{secrets.REDIS_PORT}}
+          REDIS_HOST: ${{secrets.REDIS_HOST}}
         run: |
-          heroku container:push web --arg NODE_ENV=production -a proyecto-ing-soft-3-vote
-          heroku container:release web -a proyecto-ing-soft-3-vote
+          heroku config:set REDIS_PORT=${{ secrets.REDIS_PORT }} -a proyecto-ing-soft-3-vote
+          heroku config:set REDIS_HOST=${{ secrets.REDIS_HOST }} -a proyecto-ing-soft-3-vote
+      - name: Push
+        run: |
+          cd ./vote
+          heroku container: push -a proyecto-ing-soft-3-vote web
+      - name: Release
+        env:
+          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+        run: heroku container:releas -a proyecto-ing-soft-3-vote web
