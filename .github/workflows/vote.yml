@@ -48,9 +48,9 @@ jobs:
       - name: Push
         run: |
           cd ./vote
-          heroku container: push -a proyecto-ing-soft-3-vote web
+          heroku container:push -a proyecto-ing-soft-3-vote web
 
       - name: Release
         env:
           HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
-        run: heroku container:releas -a proyecto-ing-soft-3-vote web
+        run: heroku container:release -a proyecto-ing-soft-3-vote web
