@@ -1,14 +1,16 @@
+
 package worker;
 
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.exceptions.JedisConnectionException;
 import java.sql.*;
 import org.json.JSONObject;
 
 class Worker {
   public static void main(String[] args) {
     try {
-      Jedis redis = connectToRedis();
-      Connection dbConn = connectToDB(System.getenv("POSTGRES_HOST"));
+      Jedis redis = connectToRedis("redis");
+      Connection dbConn = connectToDB("db");
 
       System.err.println("Watching vote queue");
 
@@ -42,9 +44,21 @@ class Worker {
     }
   }
 
-  static Jedis connectToRedis() {
-    Jedis jedis = new Jedis(System.getenv("REDIS_HOST"));
-    return jedis;
+  static Jedis connectToRedis(String host) {
+    Jedis conn = new Jedis(host);
+
+    while (true) {
+      try {
+        conn.keys("*");
+        break;
+      } catch (JedisConnectionException e) {
+        System.err.println("Waiting for redis");
+        sleep(1000);
+      }
+    }
+
+    System.err.println("Connected to redis");
+    return conn;
   }
 
   static Connection connectToDB(String host) throws SQLException {
@@ -53,15 +67,13 @@ class Worker {
     try {
 
       Class.forName("org.postgresql.Driver");
-      String url = "jdbc:postgresql://" + host + ":" + System.getenv("POSTGRES_PORT") + "/"
-          + System.getenv("POSTGRES_DATABASE");
+      String url = "jdbc:postgresql://" + host + "/postgres";
 
       while (conn == null) {
         try {
-          conn = DriverManager.getConnection(url, System.getenv("POSTGRES_USER"), System.getenv("POSTGRES_PASSWORD"));
+          conn = DriverManager.getConnection(url, "postgres", "postgres");
         } catch (SQLException e) {
-          System.err
-              .println("Waiting for db" + url + System.getenv("POSTGRES_USER") + System.getenv("POSTGRES_PASSWORD"));
+          System.err.println("Waiting for db");
           sleep(1000);
         }
       }
