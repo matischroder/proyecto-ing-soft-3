@@ -40,7 +40,8 @@ jobs:
 
     - name: Copy files to the production website with the AWS CLI
       run: |
-        ssh -i ${{secrets.PROYECTO_ING_PEM}}.pem ubuntu@ec2-3-15-213-109.us-east-2.compute.amazonaws.com
+        echo ${{secrets.PROYECTO_ING_PEM}} > proyecto-ing.pem
+        ssh -i proyecto-ing.pem ubuntu@ec2-3-15-213-109.us-east-2.compute.amazonaws.com
         cd proyecto-ing-soft-3
         sudo docker rmi --force proyecto-ing-soft-3_vote:latest
         sudo docker pull ${{secrets.DOCKER_USER}}/result:latest
