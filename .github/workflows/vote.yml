@@ -18,7 +18,6 @@ jobs:
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-
       - name: Build Docker Image
         run: docker build -t ${{secrets.DOCKER_USER}}/vote vote/
 
@@ -26,33 +25,22 @@ jobs:
         run: docker push ${{secrets.DOCKER_USER}}/vote
 
   deploy:
+    name: Upload to Amazon S3
     runs-on: ubuntu-latest
-    needs: [build]
     steps:
-      - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
 
-      - name: Login to Heroku Container registry
-        env:
-          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
-        run: heroku container:login
+    - name: Configure AWS credentials from Production account
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2c
 
-      - name: Setting Variables
-        env:
-          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
-        run: |
-          heroku config:set REDIS_PORT=${{ secrets.REDIS_PORT }} -a proyecto-ing-soft-3-vote
-          heroku config:set REDIS_HOST=${{ secrets.REDIS_HOST }} -a proyecto-ing-soft-3-vote
-          heroku config:set REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }} -a proyecto-ing-soft-3-vote
-      - name: Push
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          HEROKU_EMAIL: ${{secrets.HEROKU_EMAIL}}
-        run: |
-          cd ./vote
-          heroku container:push -a proyecto-ing-soft-3-vote web
-
-      - name: Release
-        env:
-          HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
-          HEROKU_EMAIL: ${{secrets.HEROKU_EMAIL}}
-        run: heroku container:release -a proyecto-ing-soft-3-vote web
+    - name: Copy files to the production website with the AWS CLI
+      run: |
+        cd proyecto-ing-soft-3
+        sudo docker rmi --force proyecto-ing-soft-3_vote:latest
+        sudo docker pull ${{secrets.DOCKER_USER}}/vote:latest
+        sudo docker build -t matischroder/vote vote/

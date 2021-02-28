@@ -25,30 +25,22 @@ jobs:
         run: docker push ${{secrets.DOCKER_USER}}/result
 
   deploy:
+    name: Upload to Amazon S3
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+    - name: Checkout
+      uses: actions/checkout@v2
 
-      - name: Login to Heroku Container registry
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login
+    - name: Configure AWS credentials from Production account
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-2c
 
-      - name: Setting Variables
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: |
-          heroku config:set POST_URI=${{ secrets.POSTGRES_URI }} -a proyecto-ing-soft-3-result
-
-      - name: Push
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          HEROKU_EMAIL: ${{secrets.HEROKU_EMAIL}}
-        run: |
-          cd ./result
-          heroku container:push -a proyecto-ing-soft-3-result web
-
-      - name: Release
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release -a proyecto-ing-soft-3-result web
+    - name: Copy files to the production website with the AWS CLI
+      run: |
+        cd proyecto-ing-soft-3
+        sudo docker rmi --force proyecto-ing-soft-3_vote:latest
+        sudo docker pull ${{secrets.DOCKER_USER}}/result:latest
+        sudo docker build -t matischroder/result result/
