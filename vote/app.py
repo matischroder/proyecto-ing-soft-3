@@ -41,7 +41,7 @@ def hello():
     vote = None
 
     if request.method == 'POST':
-        redis = get_redis()
+        redis = get_redis(REDIS_HOST, REDIS_PASSWORD, REDIS_PORT)
         vote = request.form['vote']
         app.logger.info('Received vote for %s', vote)
         data = json.dumps({'voter_id': voter_id, 'vote': vote})
@@ -59,4 +59,4 @@ def hello():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80, debug=True, threaded=True)
+    app.run(host='0.0.0.0', port=PORT, threaded=True)
