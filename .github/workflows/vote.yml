@@ -57,6 +57,6 @@ jobs:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: |
         heroku container:release -a proyecto-ing-soft-3-vote web
-        heroku logs --tail
+        heroku logs --app=proyecto-ing-soft-3-vote --tail
       
         
