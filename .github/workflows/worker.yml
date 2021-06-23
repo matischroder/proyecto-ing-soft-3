@@ -25,24 +25,19 @@ jobs:
         run: docker push ${{secrets.DOCKER_USER}}/worker
 
   deploy:
-    name: Upload to Amazon S3
+    name: Upload to Heroku
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Configure AWS credentials from Production account
-      uses: aws-actions/configure-aws-credentials@v1
+    - name: Configure Heroku credentials from Production account
+      uses: akhileshns/heroku-deploy@v3.12.12
       with:
-        aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-2
+        heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+        heroku_app_name: "proyecto-ing-soft-3-worker"
+        heroku_email: "matischroder99@gmail.com"
 
-    - name: Copy files to the production website with the AWS CLI
+    - name: Copy files to the production website in Heroku
       run: |
-        echo ${{secrets.PROYECTO_ING_PEM}} > proyecto-ing.pem
-        ssh -i proyecto-ing.pem ubuntu@ec2-3-15-213-109.us-east-2.compute.amazonaws.com
-        cd proyecto-ing-soft-3
-        sudo docker rmi --force proyecto-ing-soft-3_vote:latest
-        sudo docker pull ${{secrets.DOCKER_USER}}/worker:latest
-        sudo docker build -t matischroder/worker worker/
+        heroku container:push -a proyecto-ing-soft-3-worker web
