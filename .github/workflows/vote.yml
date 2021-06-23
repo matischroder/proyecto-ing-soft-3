@@ -3,8 +3,6 @@ name: Vote
 on:
   push:
     branches: [master]
-  pull_request:
-    branches: [master]
 
 jobs:
   build:
@@ -25,24 +23,35 @@ jobs:
         run: docker push ${{secrets.DOCKER_USER}}/vote
 
   deploy:
-    name: Upload to Amazon S3
+    name: Upload to Heroku
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Configure AWS credentials from Production account
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-2
+    - name: Configure Heroku credentials from Production account
+      env:
+        HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
+      run: heroku container:login
 
-    - name: Copy files to the production website with the AWS CLI
+    - name: Envrioment variables
+      env:
+        HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
       run: |
-        echo ${{secrets.PROYECTO_ING_PEM}} > proyecto-ing.pem
-        ssh -i proyecto-ing.pem ubuntu@ec2-3-15-213-109.us-east-2.compute.amazonaws.com
-        cd proyecto-ing-soft-3
-        sudo docker rmi --force proyecto-ing-soft-3_vote:latest
-        sudo docker pull ${{secrets.DOCKER_USER}}/vote:latest
-        sudo docker build -t matischroder/vote vote/
+            heroku config:set REDIS_PORT=${{ secrets.REDIS_PORT }} -a proyecto-ing-soft-3-vote
+            heroku config:set REDIS_HOST=${{ secrets.REDIS_HOST }} -a proyecto-ing-soft-3-vote
+            heroku config:set REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }} -a proyecto-ing-soft-3-vote
+
+    - name: Push
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: |
+        cd ./vote
+        heroku container:push -a proyecto-ing-soft-3-vote web
+
+    - name: Release
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku container:release -a proyecto-ing-soft-3-vote web
+      
+        
