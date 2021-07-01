@@ -10,18 +10,16 @@ option_a = os.getenv('OPTION_A', "Cats")
 option_b = os.getenv('OPTION_B', "Dogs")
 hostname = socket.gethostname()
 
-PORT = int(os.environ.get('PORT', 5000))
+PORT = int(os.environ.get('PORT', '5000'))
 REDIS_PORT = int(os.environ.get('REDIS_PORT', '5000'))
-REDIS_HOST = int(os.environ.get('REDIS_HOST', 'redis'))
-REDIS_PASSWORD = int(os.environ.get('REDIS_PASSWORD', 'pass'))
+REDIS_HOST = os.environ.get('REDIS_HOST', 'redis')
+REDIS_PASSWORD = os.environ.get('REDIS_PASSWORD', 'pass')
 
 app = Flask(__name__)
 
 gunicorn_error_logger = logging.getLogger('gunicorn.error')
 app.logger.handlers.extend(gunicorn_error_logger.handlers)
 app.logger.setLevel(logging.INFO)
-
-print("prueba de push")
 
 
 def get_redis():
