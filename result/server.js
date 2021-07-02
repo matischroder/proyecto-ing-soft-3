@@ -27,6 +27,7 @@ var POSTGRES_URI = process.env.POSTGRES_URI || 'postgres://postgres:postgres@db/
 
 var pool = new Pool({
   connectionString: POSTGRES_URI
+  
 })
 
 async.retry(
