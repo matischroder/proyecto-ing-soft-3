@@ -75,7 +75,6 @@ class Worker {
       String url = "jdbc:postgresql://" + host +":"+ port + "/" + database;
       System.out.println(url);
       Properties props = new Properties();
-      
       props.setProperty("user", user);
       props.setProperty("password", pass);
       props.setProperty("ssl", "true");
