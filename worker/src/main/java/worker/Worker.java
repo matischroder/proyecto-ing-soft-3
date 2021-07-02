@@ -77,7 +77,7 @@ class Worker {
       Properties props = new Properties();
       props.setProperty("user", user);
       props.setProperty("password", pass);
-      props.setProperty("ssl", "true");
+      props.setProperty("ssl", "false");
 
       while (conn == null) {
         try {
