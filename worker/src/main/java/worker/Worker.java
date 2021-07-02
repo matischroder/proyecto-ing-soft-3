@@ -78,7 +78,7 @@ class Worker {
       props.setProperty("user", user);
       props.setProperty("password", pass);
       props.setProperty("ssl", "false");
-      props.setProperty("sslfactory", "org.postgresql.ssl.NonValidatingFactory")
+      props.setProperty("sslfactory", "org.postgresql.ssl.NonValidatingFactory");
 
       while (conn == null) {
         try {
