@@ -25,9 +25,9 @@ io.sockets.on('connection', function (socket) {
 
 var POSTGRES_URI = process.env.POSTGRES_URI || 'postgres://postgres:postgres@db/postgres'
 
-var pool = new pg.Pool({
+var pool = new Pool({
   connectionString: POSTGRES_URI
-});
+})
 
 async.retry(
   { times: 1000, interval: 1000 },
