@@ -13,10 +13,9 @@ class Worker {
       //Redis
       Jedis redis = connectToRedis(System.getenv("REDIS_HOST"), Integer.parseInt(System.getenv("REDIS_PORT")),
           System.getenv("REDIS_PASSWORD"));
-      System.out.println("Connected to Redis");
 
       //Postgres
-      Connection dbConn = connectToDB(System.getenv("POSTGRES_HOST"),System.getenv("POSTGRES_DATABASE"),System.getenv("POSTGRES_USER"),System.getenv("POSTGRES_PASSWORD"));
+      Connection dbConn = connectToDB(System.getenv("POSTGRES_HOST"), System.getenv("POSTGRES_PORT"),System.getenv("POSTGRES_DATABASE"),System.getenv("POSTGRES_USER"),System.getenv("POSTGRES_PASSWORD"));
     
       System.err.println("Watching vote queue");
 
@@ -68,12 +67,12 @@ class Worker {
     return conn;
   }
 
-  static Connection connectToDB(String host,String database,String user, String pass) throws SQLException {
+  static Connection connectToDB(String host,String port,String database,String user, String pass) throws SQLException {
     Connection conn = null;
     try {
 
       Class.forName("org.postgresql.Driver");
-      String url = "jdbc:postgresql://" + host + "/" + database;
+      String url = "jdbc:postgresql://" + host + port+ "/" + database;
       System.out.println(url);
       Properties props = new Properties();
       props.setProperty("user", user);
