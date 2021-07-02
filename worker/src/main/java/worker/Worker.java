@@ -1,17 +1,23 @@
-
 package worker;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 import java.sql.*;
+import java.util.Properties;
+
 import org.json.JSONObject;
 
 class Worker {
   public static void main(String[] args) {
     try {
-      Jedis redis = connectToRedis("redis");
-      Connection dbConn = connectToDB("db");
+      //Redis
+      Jedis redis = connectToRedis(System.getenv("REDIS_HOST"), Integer.parseInt(System.getenv("REDIS_PORT")),
+          System.getenv("REDIS_PASSWORD"));
+      System.out.println("Connected to Redis");
 
+      //Postgres
+      Connection dbConn = connectToDB(System.getenv("POSTGRES_HOST"),System.getenv("POSTGRES_DATABASE"),System.getenv("POSTGRES_USER"),System.getenv("POSTGRES_PASSWORD"));
+    
       System.err.println("Watching vote queue");
 
       while (true) {
@@ -44,8 +50,9 @@ class Worker {
     }
   }
 
-  static Jedis connectToRedis(String host) {
-    Jedis conn = new Jedis(host);
+  static Jedis connectToRedis(String host,Integer port,String pass) {
+    Jedis conn = new Jedis(host,port);
+    conn.auth(pass);
 
     while (true) {
       try {
@@ -61,17 +68,21 @@ class Worker {
     return conn;
   }
 
-  static Connection connectToDB(String host) throws SQLException {
+  static Connection connectToDB(String host,String database,String user, String pass) throws SQLException {
     Connection conn = null;
-
     try {
 
       Class.forName("org.postgresql.Driver");
-      String url = "jdbc:postgresql://" + host + "/postgres";
+      String url = "jdbc:postgresql://" + host + "/" + database;
 
+      Properties props = new Properties();
+      props.setProperty("user", user);
+      props.setProperty("password", pass);
+      props.setProperty("ssl", "true");
+      
       while (conn == null) {
         try {
-          conn = DriverManager.getConnection(url, "postgres", "postgres");
+          conn = DriverManager.getConnection(url, props);
         } catch (SQLException e) {
           System.err.println("Waiting for db");
           sleep(1000);
