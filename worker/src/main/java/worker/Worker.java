@@ -74,12 +74,12 @@ class Worker {
 
       Class.forName("org.postgresql.Driver");
       String url = "jdbc:postgresql://" + host + "/" + database;
-
+      System.out.println(url);
       Properties props = new Properties();
       props.setProperty("user", user);
       props.setProperty("password", pass);
-      props.setProperty("ssl", "true");
-      
+      System.out.println(url+props);
+
       while (conn == null) {
         try {
           conn = DriverManager.getConnection(url, props);
