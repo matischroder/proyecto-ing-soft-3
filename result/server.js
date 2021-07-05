@@ -39,7 +39,7 @@ io.sockets.on('connection', function (socket) {
 })
 
 async.retry(
-  { times: 100000, interval: 1000 },
+  { times: 1000, interval: 1000 },
   function (callback) {
     pool.connect(function (err, client, done) {
       if (err) {

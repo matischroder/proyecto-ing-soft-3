@@ -15,7 +15,7 @@ class Worker {
           System.getenv("REDIS_PASSWORD"));
 
       //Postgres
-      Connection dbConn = connectToDB(System.getenv("POSTGRES_HOST"), System.getenv("POSTGRES_PORT"),System.getenv("POSTGRES_DATABASE"),System.getenv("POSTGRES_USER"),System.getenv("POSTGRES_PASSWORD"));
+      Connection dbConn = connectToDB(System.getenv("POSTGRES_HOST"), Integer.parseInt(System.getenv("POSTGRES_PORT")),System.getenv("POSTGRES_DATABASE"),System.getenv("POSTGRES_USER"),System.getenv("POSTGRES_PASSWORD"));
     
       System.err.println("Watching vote queue");
 
@@ -67,7 +67,7 @@ class Worker {
     return conn;
   }
 
-  static Connection connectToDB(String host,String port,String database,String user, String pass) throws SQLException {
+  static Connection connectToDB(String host,Integer port,String database,String user, String pass) throws SQLException {
     Connection conn = null;
     try {
 
@@ -78,13 +78,14 @@ class Worker {
       props.setProperty("user", user);
       props.setProperty("password", pass);
       props.setProperty("ssl", "false");
+      props.setProperty("sslfactory", "org.postgresql.ssl.NonValidatingFactory");
 
       while (conn == null) {
         try {
           conn = DriverManager.getConnection(url, props);
         } catch (SQLException e) {
           System.err.println("Waiting for db");
-          sleep(5000);
+          sleep(1000);
         }
       }
 
