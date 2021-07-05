@@ -72,13 +72,12 @@ class Worker {
     try {
 
       Class.forName("org.postgresql.Driver");
-      String url = "jdbc:postgresql://" + host +":"+ port + "/" + database;
-      System.out.println(url);
+      String url = "jdbc:postgresql://" + host + ":" + port + "/" + database;
+
       Properties props = new Properties();
       props.setProperty("user", user);
       props.setProperty("password", pass);
       props.setProperty("ssl", "false");
-      props.setProperty("sslfactory", "org.postgresql.ssl.NonValidatingFactory");
 
       while (conn == null) {
         try {
