@@ -46,9 +46,6 @@ jobs:
         heroku config:set POSTGRES_USER=${{ secrets.POSTGRES_USER }} -a proyecto-ing-soft-3-worker  
         heroku config:set POSTGRES_PORT=${{ secrets.POSTGRES_PORT }} -a proyecto-ing-soft-3-worker
         heroku config:set POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} -a proyecto-ing-soft-3-worker
-        heroku config:set REDIS_PORT=${{ secrets.REDIS_PORT }} -a proyecto-ing-soft-3-worker
-        heroku config:set REDIS_HOST=${{ secrets.REDIS_HOST }} -a proyecto-ing-soft-3-worker
-        heroku config:set REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }} -a proyecto-ing-soft-3-worker
 
     - name: Push
       env:
