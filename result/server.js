@@ -27,7 +27,15 @@ var POSTGRES_URI = process.env.POSTGRES_URI || 'postgres://postgres:postgres@db/
 
 var pool = new Pool({
   connectionString: POSTGRES_URI
-  
+})
+
+io.sockets.on('connection', function (socket) {
+
+  socket.emit('message', { text: 'Welcome!' })
+
+  socket.on('subscribe', function (data) {
+    socket.join(data.channel);
+  })
 })
 
 async.retry(
