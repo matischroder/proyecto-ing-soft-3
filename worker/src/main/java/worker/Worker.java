@@ -72,7 +72,7 @@ class Worker {
     try {
 
       Class.forName("org.postgresql.Driver");
-      String url = "jdbc:postgresql://" + host + ":" + port + "/" + database;
+      String url = "jdbc:postgresql://" + host + ":5432/" + database;
 
       Properties props = new Properties();
       props.setProperty("user", user);
