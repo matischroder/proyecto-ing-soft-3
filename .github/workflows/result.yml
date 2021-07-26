@@ -40,13 +40,7 @@ jobs:
     - name: Envrioment variables
       env:
         HEROKU_API_KEY: ${{secrets.HEROKU_API_KEY}}
-      run: |
-        heroku config:set POSTGRES_URI=${{ secrets.POSTGRES_URI }} -a 
-        heroku config:set POSTGRES_HOST=${{ secrets.POSTGRES_HOST }} -a proyecto-ing-soft-3-worker
-        heroku config:set POSTGRES_DATABASE=${{ secrets.POSTGRES_DATABASE }} -a proyecto-ing-soft-3-worker
-        heroku config:set POSTGRES_USER=${{ secrets.POSTGRES_USER }} -a proyecto-ing-soft-3-worker  
-        heroku config:set POSTGRES_PORT=${{ secrets.POSTGRES_PORT }} -a proyecto-ing-soft-3-worker
-        heroku config:set POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} -a proyecto-ing-soft-3-worker
+      run: heroku config:set POSTGRES_URI=${{ secrets.POSTGRES_URI }} -a 
 
     - name: Push
       env:
