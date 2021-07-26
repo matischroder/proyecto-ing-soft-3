@@ -13,6 +13,7 @@ var express = require('express'),
 io.set('transports', ['polling']);
 
 var port = process.env.PORT || 4000;
+var POSTGRES_URI = process.env.POSTGRES_URI || 'postgres://postgres:postgres@db/postgres';
 
 io.sockets.on('connection', function (socket) {
 
@@ -23,12 +24,6 @@ io.sockets.on('connection', function (socket) {
   });
 });
 
-var connectionString = process.env.POSTGRES_URI || 'postgres://postgres:postgres@db/postgres'
-
-var pool = new Pool({
-  connectionString
-})
-
 io.sockets.on('connection', function (socket) {
 
   socket.emit('message', { text: 'Welcome!' })
@@ -36,6 +31,10 @@ io.sockets.on('connection', function (socket) {
   socket.on('subscribe', function (data) {
     socket.join(data.channel);
   })
+})
+
+var pool = new pg.Pool({
+  connectionString: POSTGRES_URI
 })
 
 async.retry(
