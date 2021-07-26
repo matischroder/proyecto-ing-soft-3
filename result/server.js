@@ -1,7 +1,10 @@
+const { off } = require('process');
+
 var express = require('express'),
   async = require('async'),
   pg = require('pg'),
   { Pool } = require('pg'),
+  { Client } = require('pg'),
   path = require('path'),
   cookieParser = require('cookie-parser'),
   bodyParser = require('body-parser'),
@@ -13,7 +16,6 @@ var express = require('express'),
 io.set('transports', ['polling']);
 
 var port = process.env.PORT || 4000;
-var connectionString = process.env.POSTGRES_URI || 'postgres://postgres:postgres@db/postgres';
 
 io.sockets.on('connection', function (socket) {
 
@@ -24,12 +26,14 @@ io.sockets.on('connection', function (socket) {
   });
 });
 
+var POSTGRES_URI = process.env.POSTGRES_URI || 'postgres://postgres:postgres@db/postgres';
+
 var pool = new pg.Pool({
-  connectionString
-})
+  connectionString: `${POSTGRES_URI}?ssl=true`,
+});
 
 async.retry(
-  { times: 1000, interval: 1000 },
+  { times: 30, interval: 1000 },
   function (callback) {
     pool.connect(function (err, client, done) {
       if (err) {
