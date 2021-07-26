@@ -72,17 +72,11 @@ class Worker {
     try {
 
       Class.forName("org.postgresql.Driver");
-      String url = "jdbc:postgresql://" + host + ":5432/" + database;
-
-      Properties props = new Properties();
-      props.setProperty("user", user);
-      props.setProperty("password", pass);
-      props.setProperty("ssl", "true");
-      props.setProperty("sslfactory", "org.postgresql.ssl.NonValidatingFactory");
-
+      String url = "jdbc:postgresql://" + host + ":" + port + "/" + database + "?user=" + user + "&password=" + pass
+          + "&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";    
       while (conn == null) {
         try {
-          conn = DriverManager.getConnection(url, props);
+          conn = DriverManager.getConnection(url);
         } catch (SQLException e) {
           System.err.println("Waiting for db");
           sleep(1000);
