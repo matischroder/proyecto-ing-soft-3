@@ -1,16 +1,39 @@
 import unittest
-
-from vote.app import get_redis
-REDIS_HOST = "localhost"
-REDIS_PORT = 6379
-REDIS_PASSWORD = "redisredis"
+import requests
 
 
 class UnitTest(unittest.TestCase):
-    def test_get_redis(self):
-        result = get_redis()
-        print(result)
-        self.assertEqual(result, 6)
+    url = 'https://proyecto-ing-soft-3-vote.herokuapp.com/'
+
+    def test_status(self):
+        response = requests.get(self.url)
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_status(self):
+        payload = {'vote': 'b'}
+        headers = {
+            'Cookie': 'voter_id=21d23vr74d34'
+        }
+        response = requests.post(self.url, headers=headers, data=payload)
+        self.assertEqual(response.status_code, 200)
+
+    def test_post_status_400(self):
+        response = requests.post(self.url)
+        self.assertEqual(response.status_code, 400)
+
+    def test_get_voter_id_cookie(self):
+        valid_cookie = '21d23vr74d34'
+        payload = {'vote': 'a'}
+        headers = {
+            'Cookie': 'voter_id=21d23vr74d34'
+        }
+        response = requests.post(self.url, headers=headers, data=payload)
+        self.assertEqual(response.cookies["voter_id"], valid_cookie)
+
+    def test_set_new_cookie(self):
+        payload = {'vote': 'a'}
+        response = requests.post(self.url, data=payload)
+        assert response.cookies["voter_id"] is not None
 
 
 if __name__ == '__main__':
