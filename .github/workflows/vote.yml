@@ -45,6 +45,7 @@ jobs:
 
         
   build:
+    name: Pushing dockerhub
     runs-on: ubuntu-latest
 
     steps:
