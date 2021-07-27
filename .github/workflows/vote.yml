@@ -40,9 +40,9 @@ jobs:
       - name: Publish Unit Test Results
         uses: EnricoMi/publish-unit-test-result-action@v1.4
         if: ${{ always() }}
-        
+
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.WORKFLOW_TOKEN }}
           check_name: Unit Test Results
           comment_title: Unit Test Statistics
           hide_comments: all but latest
