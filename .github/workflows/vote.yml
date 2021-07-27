@@ -21,20 +21,22 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
-
+      
       - name: Install dependencies
         run: |
           cd ./vote
           pip install -r requirements.txt
-
+      
       - name: PyTest
-        run: python3 -m pytest ./vote/test --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+        run: python -m pytest ./vote/test --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
 
       - name: Upload Unit Test Results
         uses: actions/upload-artifact@v2
         with:
           name: Unit Test Results (Python ${{ matrix.python-version }})
           path: junit/test-results.xml
+        if: ${{ always() }}
+
         
   build:
     runs-on: ubuntu-latest
