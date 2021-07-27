@@ -1,7 +1,7 @@
 Flask
 Redis
 gunicorn
-requests~=2.22.0
+requests
 pytest
 pytest-cov
 coverage
