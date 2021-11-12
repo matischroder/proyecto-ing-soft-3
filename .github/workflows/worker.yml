@@ -14,7 +14,7 @@ jobs:
         uses: codeinspectorio/github-action@master
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          code_inspector_api_token: ${{ secrets.CODE_INSPECTOR_API_TOKEN.WORKER }}
+          code_inspector_api_token: ${{ secrets.CODE_INSPECTOR_API_TOKEN_WORKER }}
           min_quality_grade: 'Critical'
           min_quality_score: '0'
           max_complex_functions_rate: '0.4'
