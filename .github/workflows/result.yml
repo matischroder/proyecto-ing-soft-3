@@ -5,6 +5,23 @@ on:
     branches: [master]
 
 jobs:
+  check-quality:
+    runs-on: ubuntu-latest
+    name: Checking code check quality
+    steps:
+      - name: Check code meets quality standars
+        id: code-inspector
+        uses: code-inspector/github-action@master
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          code_inspector_secret_key: ${{ secrets.CODE_INSPECTOR_API_TOKEN_RESULT }}
+          min_quality_grade: 'Critical'
+          min_quality_score: '0'
+          max_complex_functions_rate: '0.4'
+          max_defects_rate: '0.4'
+          max_long_functions_rate: '0.4'
+
+
   build:
     name: Pushing dockerhub
     runs-on: ubuntu-latest
