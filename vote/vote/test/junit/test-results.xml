@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite errors="0" failures="3" hostname="matischroder" name="pytest" skipped="0" tests="5" time="10.629" timestamp="2021-11-15T16:27:41.234727"><testcase classname="test.app.test.UnitTest" file="test/app/test.py" line="23" name="test_get_voter_id_cookie" time="6.099"><failure message="KeyError: &quot;name=&apos;voter_id&apos;, domain=None, path=None&quot;">self = &lt;app.test.UnitTest testMethod=test_get_voter_id_cookie&gt;
+
+    def test_get_voter_id_cookie(self):
+        valid_cookie = &apos;21d23vr74d34&apos;
+        payload = {&apos;vote&apos;: &apos;a&apos;}
+        headers = {
+            &apos;Cookie&apos;: &apos;voter_id=21d23vr74d34&apos;
+        }
+        response = requests.post(self.url, headers=headers, data=payload)
+&gt;       self.assertEqual(response.cookies[&quot;voter_id&quot;], valid_cookie)
+
+test/app/test.py:31: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../../.local/lib/python2.7/site-packages/requests/cookies.py:328: in __getitem__
+    return self._find_no_duplicates(name)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;RequestsCookieJar[]&gt;, name = &apos;voter_id&apos;, domain = None, path = None
+
+    def _find_no_duplicates(self, name, domain=None, path=None):
+        &quot;&quot;&quot;Both ``__get_item__`` and ``get`` call this function: it&apos;s never
+        used elsewhere in Requests.
+    
+        :param name: a string containing name of cookie
+        :param domain: (optional) string containing domain of cookie
+        :param path: (optional) string containing path of cookie
+        :raises KeyError: if cookie is not found
+        :raises CookieConflictError: if there are multiple cookies
+            that match name and optionally domain and path
+        :return: cookie.value
+        &quot;&quot;&quot;
+        toReturn = None
+        for cookie in iter(self):
+            if cookie.name == name:
+                if domain is None or cookie.domain == domain:
+                    if path is None or cookie.path == path:
+                        if toReturn is not None:  # if there are multiple cookies that meet passed in criteria
+                            raise CookieConflictError(&apos;There are multiple cookies with name, %r&apos; % (name))
+                        toReturn = cookie.value  # we will eventually return this as long as no cookie conflict
+    
+        if toReturn:
+            return toReturn
+&gt;       raise KeyError(&apos;name=%r, domain=%r, path=%r&apos; % (name, domain, path))
+E       KeyError: &quot;name=&apos;voter_id&apos;, domain=None, path=None&quot;
+
+../../../../.local/lib/python2.7/site-packages/requests/cookies.py:399: KeyError</failure></testcase><testcase classname="test.app.test.UnitTest" file="test/app/test.py" line="11" name="test_post_status" time="1.351"><failure message="AssertionError: 500 != 200">self = &lt;app.test.UnitTest testMethod=test_post_status&gt;
+
+    def test_post_status(self):
+        payload = {&apos;vote&apos;: &apos;b&apos;}
+        headers = {
+            &apos;Cookie&apos;: &apos;voter_id=21d23vr74d34&apos;
+        }
+        response = requests.post(self.url, headers=headers, data=payload)
+&gt;       self.assertEqual(response.status_code, 200)
+E       AssertionError: 500 != 200
+
+test/app/test.py:18: AssertionError</failure></testcase><testcase classname="test.app.test.UnitTest" file="test/app/test.py" line="19" name="test_post_status_400" time="0.805"></testcase><testcase classname="test.app.test.UnitTest" file="test/app/test.py" line="32" name="test_set_new_cookie" time="1.264"><failure message="KeyError: &quot;name=&apos;voter_id&apos;, domain=None, path=None&quot;">self = &lt;app.test.UnitTest testMethod=test_set_new_cookie&gt;
+
+    def test_set_new_cookie(self):
+        payload = {&apos;vote&apos;: &apos;a&apos;}
+        response = requests.post(self.url, data=payload)
+&gt;       assert response.cookies[&quot;voter_id&quot;] is not None
+
+test/app/test.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+../../../../.local/lib/python2.7/site-packages/requests/cookies.py:328: in __getitem__
+    return self._find_no_duplicates(name)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;RequestsCookieJar[]&gt;, name = &apos;voter_id&apos;, domain = None, path = None
+
+    def _find_no_duplicates(self, name, domain=None, path=None):
+        &quot;&quot;&quot;Both ``__get_item__`` and ``get`` call this function: it&apos;s never
+        used elsewhere in Requests.
+    
+        :param name: a string containing name of cookie
+        :param domain: (optional) string containing domain of cookie
+        :param path: (optional) string containing path of cookie
+        :raises KeyError: if cookie is not found
+        :raises CookieConflictError: if there are multiple cookies
+            that match name and optionally domain and path
+        :return: cookie.value
+        &quot;&quot;&quot;
+        toReturn = None
+        for cookie in iter(self):
+            if cookie.name == name:
+                if domain is None or cookie.domain == domain:
+                    if path is None or cookie.path == path:
+                        if toReturn is not None:  # if there are multiple cookies that meet passed in criteria
+                            raise CookieConflictError(&apos;There are multiple cookies with name, %r&apos; % (name))
+                        toReturn = cookie.value  # we will eventually return this as long as no cookie conflict
+    
+        if toReturn:
+            return toReturn
+&gt;       raise KeyError(&apos;name=%r, domain=%r, path=%r&apos; % (name, domain, path))
+E       KeyError: &quot;name=&apos;voter_id&apos;, domain=None, path=None&quot;
+
+../../../../.local/lib/python2.7/site-packages/requests/cookies.py:399: KeyError</failure></testcase><testcase classname="test.app.test.UnitTest" file="test/app/test.py" line="7" name="test_status" time="0.915"></testcase></testsuite></testsuites>
