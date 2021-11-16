@@ -13,6 +13,9 @@ class Worker {
       Jedis redis = connectToRedis(System.getenv("REDIS_HOST"), Integer.parseInt(System.getenv("REDIS_PORT")),
           System.getenv("REDIS_PASSWORD"));
 
+      String ping = redisPing(redis);
+      System.out.println(ping);
+
       //Postgres
       Connection dbConn = connectToDB(System.getenv("POSTGRES_HOST"), Integer.parseInt(System.getenv("POSTGRES_PORT")),System.getenv("POSTGRES_DATABASE"),System.getenv("POSTGRES_USER"),System.getenv("POSTGRES_PASSWORD"));
     
@@ -46,6 +49,14 @@ class Worker {
       update.setString(2, voterID);
       update.executeUpdate();
     }
+  }
+
+  static String redisPing(Jedis conn) {
+    return "Server is runing:" + conn.ping();
+  }
+
+  public static String strConnectionRedis() {
+    return "redis://default:" + REDIS_PASS + "@" + REDIS_HOST + ":" + REDIS_PORT;
   }
 
   static Jedis connectToRedis(String host,Integer port,String pass) {
