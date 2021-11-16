@@ -51,9 +51,12 @@ jobs:
         run: |
           cd ./vote
           pip install -r requirements.txt
+
+      - name: Where we are?
+        run: ls
       
       - name: PyTest
-        run: python -m pytest ./test/app/test.py --doctest-modules --junitxml=vote/test/junit/test-results.xml --cov-report=xml --cov-report=html
+        run: python -m pytest .vote/test/app/test.py --doctest-modules --junitxml=vote/test/junit/test-results.xml --cov-report=xml --cov-report=html
 
       - name: Upload Unit Test Results
         uses: actions/upload-artifact@v2

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite errors="0" failures="3" hostname="matischroder" name="pytest" skipped="0" tests="5" time="10.629" timestamp="2021-11-15T16:27:41.234727"><testcase classname="test.app.test.UnitTest" file="test/app/test.py" line="23" name="test_get_voter_id_cookie" time="6.099"><failure message="KeyError: &quot;name=&apos;voter_id&apos;, domain=None, path=None&quot;">self = &lt;app.test.UnitTest testMethod=test_get_voter_id_cookie&gt;
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite errors="0" failures="3" hostname="matischroder" name="pytest" skipped="0" tests="5" time="10.379" timestamp="2021-11-16T11:38:59.513997"><testcase classname="vote.test.app.test.UnitTest" file="vote/test/app/test.py" line="23" name="test_get_voter_id_cookie" time="6.061"><failure message="KeyError: &quot;name=&apos;voter_id&apos;, domain=None, path=None&quot;">self = &lt;app.test.UnitTest testMethod=test_get_voter_id_cookie&gt;
 
     def test_get_voter_id_cookie(self):
         valid_cookie = &apos;21d23vr74d34&apos;
@@ -9,9 +9,9 @@
         response = requests.post(self.url, headers=headers, data=payload)
 &gt;       self.assertEqual(response.cookies[&quot;voter_id&quot;], valid_cookie)
 
-test/app/test.py:31: 
+vote/test/app/test.py:31: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-../../../../.local/lib/python2.7/site-packages/requests/cookies.py:328: in __getitem__
+../../../.local/lib/python2.7/site-packages/requests/cookies.py:328: in __getitem__
     return self._find_no_duplicates(name)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
@@ -43,7 +43,7 @@ self = &lt;RequestsCookieJar[]&gt;, name = &apos;voter_id&apos;, domain = None, 
 &gt;       raise KeyError(&apos;name=%r, domain=%r, path=%r&apos; % (name, domain, path))
 E       KeyError: &quot;name=&apos;voter_id&apos;, domain=None, path=None&quot;
 
-../../../../.local/lib/python2.7/site-packages/requests/cookies.py:399: KeyError</failure></testcase><testcase classname="test.app.test.UnitTest" file="test/app/test.py" line="11" name="test_post_status" time="1.351"><failure message="AssertionError: 500 != 200">self = &lt;app.test.UnitTest testMethod=test_post_status&gt;
+../../../.local/lib/python2.7/site-packages/requests/cookies.py:399: KeyError</failure></testcase><testcase classname="vote.test.app.test.UnitTest" file="vote/test/app/test.py" line="11" name="test_post_status" time="0.927"><failure message="AssertionError: 500 != 200">self = &lt;app.test.UnitTest testMethod=test_post_status&gt;
 
     def test_post_status(self):
         payload = {&apos;vote&apos;: &apos;b&apos;}
@@ -54,16 +54,16 @@ E       KeyError: &quot;name=&apos;voter_id&apos;, domain=None, path=None&quot;
 &gt;       self.assertEqual(response.status_code, 200)
 E       AssertionError: 500 != 200
 
-test/app/test.py:18: AssertionError</failure></testcase><testcase classname="test.app.test.UnitTest" file="test/app/test.py" line="19" name="test_post_status_400" time="0.805"></testcase><testcase classname="test.app.test.UnitTest" file="test/app/test.py" line="32" name="test_set_new_cookie" time="1.264"><failure message="KeyError: &quot;name=&apos;voter_id&apos;, domain=None, path=None&quot;">self = &lt;app.test.UnitTest testMethod=test_set_new_cookie&gt;
+vote/test/app/test.py:18: AssertionError</failure></testcase><testcase classname="vote.test.app.test.UnitTest" file="vote/test/app/test.py" line="19" name="test_post_status_400" time="1.601"></testcase><testcase classname="vote.test.app.test.UnitTest" file="vote/test/app/test.py" line="32" name="test_set_new_cookie" time="0.774"><failure message="KeyError: &quot;name=&apos;voter_id&apos;, domain=None, path=None&quot;">self = &lt;app.test.UnitTest testMethod=test_set_new_cookie&gt;
 
     def test_set_new_cookie(self):
         payload = {&apos;vote&apos;: &apos;a&apos;}
         response = requests.post(self.url, data=payload)
 &gt;       assert response.cookies[&quot;voter_id&quot;] is not None
 
-test/app/test.py:36: 
+vote/test/app/test.py:36: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-../../../../.local/lib/python2.7/site-packages/requests/cookies.py:328: in __getitem__
+../../../.local/lib/python2.7/site-packages/requests/cookies.py:328: in __getitem__
     return self._find_no_duplicates(name)
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
@@ -95,4 +95,4 @@ self = &lt;RequestsCookieJar[]&gt;, name = &apos;voter_id&apos;, domain = None, 
 &gt;       raise KeyError(&apos;name=%r, domain=%r, path=%r&apos; % (name, domain, path))
 E       KeyError: &quot;name=&apos;voter_id&apos;, domain=None, path=None&quot;
 
-../../../../.local/lib/python2.7/site-packages/requests/cookies.py:399: KeyError</failure></testcase><testcase classname="test.app.test.UnitTest" file="test/app/test.py" line="7" name="test_status" time="0.915"></testcase></testsuite></testsuites>
+../../../.local/lib/python2.7/site-packages/requests/cookies.py:399: KeyError</failure></testcase><testcase classname="vote.test.app.test.UnitTest" file="vote/test/app/test.py" line="7" name="test_status" time="0.806"></testcase></testsuite></testsuites>
