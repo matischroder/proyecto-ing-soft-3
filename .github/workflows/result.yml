@@ -73,6 +73,7 @@ jobs:
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       run: |
+        cd ./result
         heroku container:release -a proyecto-ing-soft-3-result web
         heroku logs --app=proyecto-ing-soft-3-result
       
