@@ -55,10 +55,6 @@ class Worker {
     return "Server is runing:" + conn.ping();
   }
 
-  public static String strConnectionRedis() {
-    return "redis://default:" + REDIS_PASS + "@" + REDIS_HOST + ":" + REDIS_PORT;
-  }
-
   static Jedis connectToRedis(String host,Integer port,String pass) {
     Jedis conn = new Jedis(host,port);
     conn.auth(pass);
