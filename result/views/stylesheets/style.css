@@ -28,7 +28,7 @@ body {
 #background-stats-1 {
   height: 100vh;
   width: 100%;
-  background-color: linear-gradient(
+  background: linear-gradient(
     #75aadb 33.33%,
     white 33.33% 66.66%,
     #75aadb 66.66%
@@ -41,12 +41,12 @@ body {
 #background-stats-2 {
   height: 100vh;
   width: 100%;
-  background-color: linear-gradient(
-    #009c3b 35%,
-    #ffdf00 35% 45%,
+  background: linear-gradient(
+    #009c3b 33.33%,
+    #ffdf00 33.33% 45%,
     #002776 45% 55%,
-    #ffdf00 55% 65%,
-    #009c3b 65%
+    #ffdf00 55% 66.66%,
+    #009c3b 66.66%
   );
   background-size: 100% 100%;
   background-repeat: no-repeat;
