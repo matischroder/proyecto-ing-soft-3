@@ -7,8 +7,8 @@ from flask import Flask, render_template, request, make_response, g
 from redis import Redis
 
 
-option_a = os.getenv('OPTION_A', "Cats")
-option_b = os.getenv('OPTION_B', "Dogs")
+option_a = os.getenv('OPTION_A', "Argentina")
+option_b = os.getenv('OPTION_B', "Brazil")
 hostname = socket.gethostname()
 
 PORT = int(os.environ.get('PORT', '5000'))
