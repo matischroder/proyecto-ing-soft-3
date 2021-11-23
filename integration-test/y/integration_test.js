@@ -25,6 +25,7 @@ Scenario('Number of votes reflected in results', async ({ I }) => {
     let votesVerification = await I.grabTextFromAll('#result > span')
 
 
-    assert.equal(votes[0],votesVerification[0])
+    assert.equal(votes[0], votesVerification[0])
+    
 });
 
