@@ -22,8 +22,10 @@ jobs:
      with:
        time: '60s'
 
+   - name: Using playwright 
+     uses: microsoft/playwright-github-action@v1
+
    - name: Run CodeceptJS test
      run: |
        cd ./integration-test
-       rm -rf node_modules package-lock.json && npm install
-       npm run codeceptjs --verbose
+       npx codeceptjs run
