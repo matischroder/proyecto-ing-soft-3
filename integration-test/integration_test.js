@@ -4,7 +4,7 @@ Feature('Votes');
 
 Scenario('Number of votes reflected in results', async ({ I }) => {
     await I.executeScript(() => {
-        window.open('https://proyecto-ing-soft-3-result.herokuapp.com/','new window')
+        window.open('https://proyecto-ing-soft-3-result.herokuapp.com/', 'new window')
     })
     let votes = await I.grabTextFromAll('#result > span');
 
@@ -18,7 +18,7 @@ Scenario('Number of votes reflected in results', async ({ I }) => {
     I.click('#a')
     I.see('(Tip: you can change your vote)')
 
-    
+
     await I.executeScript(() => {
         window.open('https://proyecto-ing-soft-3-result.herokuapp.com/', 'new window')
     })
@@ -26,6 +26,6 @@ Scenario('Number of votes reflected in results', async ({ I }) => {
 
 
     assert.equal(votes[0], votesVerification[0])
-    
+
 });
 

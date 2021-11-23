@@ -1,15 +1,9 @@
-const { setHeadlessWhen } = require('@codeceptjs/configure');
-
-// turn on headless mode when running with HEADLESS=true environment variable
-// export HEADLESS=true && npx codeceptjs run
-setHeadlessWhen(process.env.HEADLESS);
-
 exports.config = {
-  tests: 'y/*_test.js',
-  output: 'y',
+  tests: '/*_test.js',
+  output: './output',
   helpers: {
     Playwright: {
-      url: "",
+      url: 'http://localhost',
       show: true,
       browser: 'chromium'
     }
@@ -19,7 +13,7 @@ exports.config = {
   },
   bootstrap: null,
   mocha: {},
-  name: 'integration',
+  name: 'integration-test',
   plugins: {
     pauseOnFail: {},
     retryFailedStep: {
