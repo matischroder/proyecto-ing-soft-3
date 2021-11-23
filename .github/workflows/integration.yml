@@ -14,6 +14,9 @@ jobs:
    runs-on: ubuntu-latest
 
    steps:
+   - name: Checkout
+     uses: actions/checkout@v2
+    
    - name: Sleep for one minute waiting all workflows
      uses: jakejarvis/wait-action@master
      with:
