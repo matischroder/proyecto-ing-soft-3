@@ -8,11 +8,17 @@ on:
       - completed
 
 jobs:
+  
   integration_test:
    name: Running integration test
    runs-on: ubuntu-latest
 
    steps:
+   - name: Sleep for one minute waiting all workflows
+     uses: jakejarvis/wait-action@master
+     with:
+       time: '60s'
+
    - uses: microsoft/playwright-github-action@v1
    - name: Run CodeceptJS test
      run: |
