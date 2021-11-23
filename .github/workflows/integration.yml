@@ -15,7 +15,10 @@ jobs:
 
    steps:
    - name: Checkout
-     uses: actions/checkout@v2
+   - uses: actions/checkout@v2
+   - uses: actions/setup-node@v2
+     with:
+        node-version: '14'
 
     
    - name: Sleep for one minute waiting all workflows
@@ -24,9 +27,6 @@ jobs:
        time: '60s'
 
    - name: Run CodeceptJS test
-   - uses: actions/setup-node@v2
-     with:
-        node-version: '14'
      run: |
        cd ./integration-test
        npm install
