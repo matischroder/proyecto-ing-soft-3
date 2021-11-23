@@ -13,8 +13,8 @@ FROM openjdk:8-jre-alpine
 
 COPY --from=build /code/target/worker-jar-with-dependencies.jar /
 
-ENV PORT = 8080
+ENV PORT = 5050
 
-EXPOSE 8080
+EXPOSE 5050
 
 CMD ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-jar", "/worker-jar-with-dependencies.jar"]
