@@ -6,3 +6,5 @@ obj/
 node_modules/
 
 ./integration/node_modules 
+
+./worker/target
