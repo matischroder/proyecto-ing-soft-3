@@ -31,7 +31,7 @@ Scenario('Votes reflected in results', async ({ I }) => {
     I.switchTo();
     I.amOnPage('https://proyecto-ing-soft-3-result.herokuapp.com/')
     let votes3 = await I.grabTextFrom('#result > span')
-    console.log("Finally we have " + votes1)
+    console.log("Finally we have " + votes3)
 
     votes1 = parseInt(votes1.replace(/\D/g, ""));
     votes2 = parseInt(votes2.replace(/\D/g, ""));
