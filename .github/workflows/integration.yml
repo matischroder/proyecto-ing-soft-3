@@ -26,4 +26,5 @@ jobs:
    - name: Run CodeceptJS test
      run: |
        cd ./integration-test
+       npm install
        npx codeceptjs run
