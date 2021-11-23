@@ -16,12 +16,6 @@ jobs:
    steps:
    - name: Checkout
      uses: actions/checkout@v2
-     
-   - name: Node Config
-     uses: actions/setup-node@v2
-     with:
-        node-version: '14'
-
     
    - name: Sleep for one minute waiting all workflows
      uses: jakejarvis/wait-action@master
@@ -31,5 +25,5 @@ jobs:
    - name: Run CodeceptJS test
      run: |
        cd ./integration-test
-       npm install
+       rm -rf node_modules package-lock.json && npm install
        npm run codeceptjs --verbose
