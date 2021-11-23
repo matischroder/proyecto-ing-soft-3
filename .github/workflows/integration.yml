@@ -1,0 +1,20 @@
+name: Integration Test
+
+on:
+  workflow_run:
+    workflows: ["Result","Vote","Worker"]
+    branches: [master]
+    types:
+      - completed
+
+jobs:
+  integration_test:
+   name: Running integration test
+   runs-on: ubuntu-latest
+
+   steps:
+   - uses: microsoft/playwright-github-action@v1
+   - name: Run CodeceptJS test
+     run: |
+       cd ./integration-test
+       npx codeceptjs run
