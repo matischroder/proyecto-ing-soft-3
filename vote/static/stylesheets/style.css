@@ -34,7 +34,7 @@ button.a {
 }
 
 button.b {
-  background-color: #009c3b;
+  background-color: red;
 }
 
 #tip {
@@ -106,7 +106,7 @@ button.b {
 }
 
 #choice button.b:hover {
-  background-color: #137e3c;
+  background-color: red;
 }
 
 #choice button.a:focus {
